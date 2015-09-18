@@ -1,0 +1,177 @@
+<div class="navbar navbar-default" id="navbar">
+    <div class="container" id="navbar-container">
+    <div class="navbar-header">
+        <a href="http://autobuyers.ph" class="navbar-brand">
+            <small>
+                <i class="glyphicon glyphicon-log-out"></i>
+                Back to Main page | Auto Buyers Philippines 
+            </small>
+        </a><!-- /.brand -->
+        
+    </div><!-- /.navbar-header -->
+    </div><!-- /.container -->
+</div>
+
+<div class="container">
+    <a href="index.html" class="navbar-brand">
+        <small>
+            <i class="glyphicon glyphicon-log-out"></i>
+            Back to Homepage
+        </small>
+    </a><!-- /index -->
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+            <input type="hidden" ng-model="realPrice" value="">
+
+          Search: <input ng-model="query" class="form-control">
+        </div>
+    
+    <br>
+    <br>
+    <br>
+
+    Filter by<br>
+        <div class="col-md-2">
+          Brand:<br>
+          <span ng-repeat="dealer in carDealers" style="list-style-type: none;">
+                  <input type="checkbox"
+                         value="{{dealer.text}}"
+                         ng-checked="{{dealer.checked}}"
+                         ng-model="dealer.checked"> {{dealer.text}}
+            <br/>
+          </span>
+        </div>
+
+        <div class="col-md-2">
+          Transmission:<br>
+          <span ng-repeat="tran in carTrans" style="list-style-type: none;">
+                  <input type="checkbox"
+                         value="{{tran.text}}"
+                         ng-checked="{{tran.checked}}"
+                         ng-model="tran.checked"> {{tran.text}}
+            <br/>
+          </span>
+        </div>
+
+        <div class="col-md-2">
+          Body Style:<br>
+          <span ng-repeat="body in carBodys" style="list-style-type: none;">
+                  <input type="checkbox"
+                         value="{{body.text}}"
+                         ng-checked="{{body.checked}}"
+                         ng-model="body.checked"> {{body.text}}
+            <br/>
+          </span>
+        </div>
+
+        <div class="col-md-2">
+          Capacity:<br>
+          <span ng-repeat="cap in carCaps" style="list-style-type: none;">
+                  <input type="checkbox"
+                         value="{{cap.text}}"
+                         ng-checked="{{cap.checked}}"
+                         ng-model="cap.checked"> {{cap.text}}
+            <br/>
+          </span>
+        </div>
+        
+        <div class="col-md-2">
+          Layout:<br>
+          <span ng-repeat="lay in carLays" style="list-style-type: none;">
+                  <input type="checkbox"
+                         value="{{lay.text}}"
+                         ng-checked="{{lay.checked}}"
+                         ng-model="lay.checked"> {{lay.text}}
+            <br/>
+          </span>
+        </div>
+  </div><!-- row -->
+</div> <!-- container -->
+
+
+<div class="container">
+
+          <!--Body content-->
+
+          <ul class="cars">
+            <li ng-hide="true" ng-show="filteredItems > 0" ng-repeat="car in all = (dealerFiltered=(filtered = (cars | filterYear:carYear | filter:query)| filterCap:(carCaps| filter:{checked:true})| filterLay:(carLays| filter:{checked:true}) | filterBody:(carBodys| filter:{checked:true}) | filterTran:(carTrans| filter:{checked:true}) | filterDealer:(carDealers| filter:{checked:true})) | orderBy:predicate:reverse | startFrom:currentPage*pageSize | limitTo:pageSize)" class="thumbnail">
+            </li>
+          </ul>
+
+    <h1>Search Results</h1>
+
+               <div>
+                   <!--TOTAL CARS: {{filtered.length}}-->
+                   TOTAL CARS: {{dealerFiltered.length}}
+
+                   <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+                       Previous
+                   </button>
+                   {{currentPage+1}}/{{numPages}}
+                   <button ng-disabled="currentPage >= dealerFiltered.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+                       Next
+                   </button>
+
+                      <select ng-model="pageSize" name="options">
+                         <option value="javascript:;">Results Per Page ...</option>
+                         <option value="5">5</option>
+                         <option value="10">10</option>
+                         <option value="20">20</option>
+                         <option value="30">30</option>
+                         <option value="40">40</option>
+                       </select>
+               </div>
+
+               <br>
+
+                               
+                             
+            <div class="row">
+                <div class="col-md-3" ng-repeat="table in data">
+                  <div ng-repeat='item in table'>
+                        <table class="table table-striped table-bordered" >
+                        <tbody>
+                            <tr>
+                                <td class="dp"><img ng-src="{{item.carImage}}">
+                                    <ul>
+                                        <li>{{item.carBrand}} {{item.carModel}}</li>
+                                        <li>{{item.carPrice | currency:"Php "}}</li>
+                                        <li>{{item.transmission}}</li>
+                                        <li>{{item.bodyStyle}}</li>
+                                        <li>{{item.layout}}</li>
+                                        <li>{{item.capacity}}</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                  </div>
+                </div>
+            </div>
+                
+                <!-- filter = 0 -->
+                <div class="col-md-12" ng-show="filteredItems == 0">
+                    <div class="col-md-12">
+                        <h4>No cars found</h4>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-show="filteredItems > 0">    
+                    <div pagination="" page="currentPage" on-select-page="setPage(page)" boundary-links="true" total-items="filteredItems" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;"></div>
+                </div>
+                
+            </div>
+
+            
+            <br>
+
+            <div class="row">
+              <div class="col-md-12">
+                <a title="Return To Top." href="javascript:scroll(0,0);">Top of Page</a>
+              </div>
+            </div>
+
+</div>                
+             
